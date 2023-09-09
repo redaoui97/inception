@@ -11,16 +11,33 @@ Is a technology that lets you create usefule IT services using resources that ar
 
 #### Types of virtualization
 <ul>
-    <li>Data Virtualization</li>
+    <li>Data Virtualization:</li>
     <p>
         Consolidate data spread into a single source. The logical data management allows establishing a single data-access and real-time access to data stored across multiple heterogenous data sources.
+        Examples of data virtualization tools:
+        <a href="https://www.denodo.com/en/solutions/overview">Denodo platform</a>
+        <a href="https://www.sap.com/products/technology-platform/hana.html">SAP Hana</a>
         <img src ="./imgs/data_virt.png">
     </p>
     <li>Desktop virtualization</li>
     <p>
-        Different from OS virtualization
+        Different from OS virtualization, Desktop virtualization allows a central administrator to deploy simulated desktop environments to hundreds of physical machines at once. Unlike traditional desktopn evironment that are physically installed and configured, desktop virtualization allows admins to perform mass configurations on all machines.
+        <img src="./imgs/desktop_virt.png">
     </p>
-    
+    <li>Server virtualization</li>
+    <p>
+        Server virtualization is dividing physical servers into isolated virtual ones, allowing each virtual server to host it's own OS.
+        <img src="./imgs/server_virt.png">
+    </p>
+    <li>Operating system virtualization</li>
+    <p>
+        d
+        <img src="./imgs/os_virt.png">
+    </p>
+    <li>Network functions virtulization</li>
+    <p>
+        <img src="./imgs/network_virt.png">
+    </p>
 </ul>
 
 #### How does Virtualization work?
