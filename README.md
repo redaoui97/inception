@@ -14,7 +14,7 @@ Is a technology that lets you create usefule IT services using resources that ar
     <li>Data Virtualization</li>
     <p>
         Consolidate data spread into a single source. The logical data management allows establishing a single data-access and real-time access to data stored across multiple heterogenous data sources.
-        <img src =".imgs/data_virt.png">
+        <img src ="./imgs/data_virt.png">
     </p>
     <li>Desktop virtualization</li>
     <p>
