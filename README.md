@@ -72,3 +72,8 @@ Software called Hypervisors separate the physical resources from the virtual env
     KVM converts Linux into a type1 hypervisor. Since it's already built inside the Linux Kernel, it has by defalut all the Kernel modules and components it needs.
     There are other tools similar to KVM but irrelevant compared to KVM (Like MS Hyper-V, but who cares about Windows!?)  
 </p>
+<img src="./imgs/KVM.png">
+
+
+### Containerization
+Containerization is the packaging of software code with just the OS Libraries and dependencies required to run the code to create a singel lightweight executable
