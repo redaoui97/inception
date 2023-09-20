@@ -69,11 +69,50 @@ Software called Hypervisors separate the physical resources from the virtual env
 #### KVM (Kernel-based Virtual machine)
 <p>
     KVM is an open source virtualization technology built into Linux. KVM lets you turn Linux into a hypervisor that allows a host machine to run multiple Virtual environments.
-    KVM converts Linux into a type1 hypervisor. Since it's already built inside the Linux Kernel, it has by defalut all the Kernel modules and components it needs.
+    KVM converts Linux into a type1 hypervisor. Since it's already built inside the Linux Kernel, it has by default all the Kernel modules and components it needs.
     There are other tools similar to KVM but irrelevant compared to KVM (Like MS Hyper-V, but who cares about Windows!?)  
 </p>
 <img src="./imgs/KVM.png">
 
 
 ### Containerization
-Containerization is the packaging of software code with just the OS Libraries and dependencies required to run the code to create a singel lightweight executable
+Containerization is the packaging of software code with just the OS Libraries and dependencies required to run the code to create a singel lightweight executable.<br>
+
+We know that virtualization relies on the hypervisor to run virtual environment on another environment built on the physical envronment. Containerization in the other hand, operate on a higher level in the system stack, and is based on the main system's kernel to operate.<br>
+
+Before jumping to containerization at runtime, we need to introduce 2 of the most important feature in Linux systems which containerization is based on: Namespaces and Cgroups. These features allow process isolation:
+
+#### Namespaces
+Namespacing is a feature of the Linux Kernel, that provides process isolation, by creating different namespaces for various system resources. <br>
+Namespacing can easily done by running the unshare command, e.g:
+```
+$ sudo unshare --fork --pid --mount-proc sh
+```
+There are several types of namespaces that container runtime uses:
+<ul>
+    <li>PID namespaces: processes inside a container has their own process ID namespaces, meaning that the processes ran inside the container, are isolated from other processes run in the system outside.</li>
+    <li>Network namespaces: Containers have their own Network interfaces, IP addresses and routing tables. Which allows networked applications to run independently.</li>
+    <li>Mount namespaces: This allows containers to mount their own isolated filesystems. And changes made to these filesysems will not affect the host system.</li>
+    <li>UTS namespaces: UTS(Unix Timesharing System) namespace is a form of namespacing that isolates the hostname and NIS(Network information service) domain name that are associated with a container. <br>
+    If you want to know more about: <a href="https://www.ionos.com/digitalguide/hosting/technical-matters/hostname/">Hostname</a>, <a href="https://en.wikipedia.org/wiki/Network_Information_Service">NIS</a>, <a href="https://en.wikipedia.org/wiki/Linux_namespaces">Namespacing</a>.
+    </li>
+</ul> 
+
+#### CGroups
+CGroups (Control Groups), are a Linux Kernel feature that allows the allocation and management of system resources. It's used to provide the necessary system resources. Because by default in the user land, the kernel provides a certain amount of resources to processes ran.<br>
+Example of a cgroup that limits memory: <br>
+```
+$ sudo cgcreate -a redaoui -g memory:cgExample
+```
+#### seccomp-bpf
+In addition to Namespaces and CGroups, it's only fair to know how to restrict system-calls. 
+$ sudo cgcreate -a bork -g memory:mycoolgrou
+Points to discuss:
+<ul>
+    <li>Kernel-level isolation: </li>
+    <li>Container images</li>
+    <li>Container runtimes</li>
+    <li>Security</li>
+</ul>
+
+
