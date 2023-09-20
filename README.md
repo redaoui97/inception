@@ -99,20 +99,30 @@ There are several types of namespaces that container runtime uses:
 </ul> 
 
 #### CGroups
-CGroups (Control Groups), are a Linux Kernel feature that allows the allocation and management of system resources. It's used to provide the necessary system resources. Because by default in the user land, the kernel provides a certain amount of resources to processes ran.<br>
+CGroups (Control Groups), are a Linux Kernel feature that allows the allocation and management of system resources. It's used to provide the necessary system resources. Because by default in the user land, the kernel provides a certain amount of resources to processes ran. Example of resources: memory, CPU, block I/O, network(iptables/tc), huge pages(special way to allocate memory), RDMA(specific for InifiniBand / remote memory transfer)(Remote Direct Memory Access is a technology that enables two networked computers to exchange data in main memory without relying on the processor, cache or operating system of either computer.)<br>
 Example of a cgroup that limits memory: <br>
 ```
 $ sudo cgcreate -a redaoui -g memory:cgExample
 ```
 #### seccomp-bpf
-In addition to Namespaces and CGroups, it's only fair to know how to restrict system-calls. 
-$ sudo cgcreate -a bork -g memory:mycoolgrou
-Points to discuss:
+In addition to Namespaces and CGroups, it's only fair to mention the seccomp-bpf feature that allows you to restrict system calls. Which adds another level of security to our "containers".<br>
+We also need to mention other security features like LSMs and capabilities.
+
+#### more details 
+You can find more detailed informations about the Containers internals <a href="https://container.training/intro-selfpaced.yml.html#679">here</a>.
+
+#### Containers
+From what we've read above, we understand that containers were just a small mixture of the Namespaces, CGroups and some filesystem magic. And secured using some features like capabilitiesm seccomp, LSMs...
+
+### Why containers
+There are many reasons why you should use containers, especially in some cases where it is vital for a task to be done virtually without the need of a Virtual Machine.
+<img src="./imgs/docker_meme.png">
 <ul>
-    <li>Kernel-level isolation: </li>
-    <li>Container images</li>
-    <li>Container runtimes</li>
-    <li>Security</li>
+    <li><b>Portable:</b> The diversity in Operating Systems nowadays makes it nearly impossible for developers to develop and maintain tools and applications on every system, thus making containerization a good choice to run stable applications in different environments.</li>
+    <li><b>Lightweight</b> Containers are lightzeight and share the host OS kernel, which makes it way fast and light than traditional Virtual Machines. </li>
+    <li><b>Fast deployment:</b> Containers can easily and rapidly be deployed, making them ideal for CI/CD pipelines.</li>
+    <li><b>Security:</b> Containers are fairly secure, as they provide a level of isolation from the host machines, making them a good choice for sandboxing and testing.</li>
 </ul>
+
 
 
