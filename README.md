@@ -135,6 +135,7 @@ To solve this problem, you can use the Docker Desktop client that allows to run 
 [page66](https://container.training/intro-selfpaced.yml.html#66)<br>
 I'm currently using a MacOs machine, and since I don't have admin privileges in this machine, and I hate using GUI client that are installed in this machine. I'll be using a Kali Virtual machine where I'll set up my Docker environment (I'll mainly use it to run Linux containers)<br>
 If you're on Windows, MacOs or another Linux distribution, check <a href="https://docs.docker.com/desktop/">the Docker docs</a> and follow the steps to install on your host machine.<br>
+<b>Tip:</b> if you decide to do the same, make sure to contantly take snapshots to avoid the need to fresh install if you messed things up while testing.<br>
 Let's get started!<br>
 I have my Linux guest machine ready, and to avoid slow response when directly using the terminal inside the virtual machine, I'll be access it remotely through ssh.
 <img src="./imgs/sshLogin.png">
@@ -149,3 +150,6 @@ kali@kali:~$ sudo systemctl enable docker --now
 kali@kali:~$
 ```
 <img src="./imgs/dockerVersion.png">
+Let's start by testing a lightweight container called <b>busybox</b> and run a simple command in it. (busybox is a small container used in embedded systems)
+
+Im here now https://container.training/intro-selfpaced.yml.html#87 , trying to run that command without verbose and disabling those shit messages
