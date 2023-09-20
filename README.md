@@ -124,5 +124,28 @@ There are many reasons why you should use containers, especially in some cases w
     <li><b>Security:</b> Containers are fairly secure, as they provide a level of isolation from the host machines, making them a good choice for sandboxing and testing.</li>
 </ul>
 
+### Docker
+I won't go through the history of Containerization and how the first versions of Docker were released. So let's dive directly into Docker:
 
+#### Working environment
+As we know, containerization, Docker containers specifically, are dependent of the host machine's Kernel. Meaning that you cannot run a Windows container directly in a Linux environment, or Linux container directly in Windows environment... You get the idea.<br>
+To solve this problem, you can use the Docker Desktop client that allows to run containers that require a different Kernel than the host machine's (in Windows for example, Docker Desktop has an option to run Linux machines by providing a lightweight virtual machine based on HyperV to run a Linux Kernel, hence the ability to run Linux containers. So if you're on Windows you can do that, and then ask yourself why you're still using Windows).<br>
 
+#### Installing Docker
+[page66](https://container.training/intro-selfpaced.yml.html#66)<br>
+I'm currently using a MacOs machine, and since I don't have admin privileges in this machine, and I hate using GUI client that are installed in this machine. I'll be using a Kali Virtual machine where I'll set up my Docker environment (I'll mainly use it to run Linux containers)<br>
+If you're on Windows, MacOs or another Linux distribution, check <a href="https://docs.docker.com/desktop/">the Docker docs</a> and follow the steps to install on your host machine.<br>
+Let's get started!<br>
+I have my Linux guest machine ready, and to avoid slow response when directly using the terminal inside the virtual machine, I'll be access it remotely through ssh.
+<img src="./imgs/sshLogin.png">
+In many Linux distributions, there is already a package named docker, but the Docker we need is under another name (docker.io).<br>
+To install and run the Docker Daemon:
+```
+kali@kali:~$ sudo apt update
+kali@kali:~$
+kali@kali:~$ sudo apt install -y docker.io
+kali@kali:~$
+kali@kali:~$ sudo systemctl enable docker --now
+kali@kali:~$
+```
+<img src="./imgs/dockerVersion.png">
