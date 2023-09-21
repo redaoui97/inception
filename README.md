@@ -132,7 +132,6 @@ As we know, containerization, Docker containers specifically, are dependent of t
 To solve this problem, you can use the Docker Desktop client that allows to run containers that require a different Kernel than the host machine's (in Windows for example, Docker Desktop has an option to run Linux machines by providing a lightweight virtual machine based on HyperV to run a Linux Kernel, hence the ability to run Linux containers. So if you're on Windows you can do that, and then ask yourself why you're still using Windows).<br>
 
 #### Installing Docker
-[page66](https://container.training/intro-selfpaced.yml.html#66)<br>
 I'm currently using a MacOs machine, and since I don't have admin privileges in this machine, and I hate using GUI client that are installed in this machine. I'll be using a Kali Virtual machine where I'll set up my Docker environment (I'll mainly use it to run Linux containers)<br>
 If you're on Windows, MacOs or another Linux distribution, check <a href="https://docs.docker.com/desktop/">the Docker docs</a> and follow the steps to install on your host machine.<br>
 <b>Tip:</b> if you decide to do the same, make sure to contantly take snapshots to avoid the need to fresh install if you messed things up while testing.<br>
@@ -149,7 +148,56 @@ kali@kali:~$
 kali@kali:~$ sudo systemctl enable docker --now
 kali@kali:~$
 ```
-<img src="./imgs/dockerVersion.png">
-Let's start by testing a lightweight container called <b>busybox</b> and run a simple command in it. (busybox is a small container used in embedded systems)
 
-Im here now https://container.training/intro-selfpaced.yml.html#87 , trying to run that command without verbose and disabling those shit messages
+#### Hello world!
+<img src="./imgs/dockerVersion.png">
+Let's start by testing a lightweight container called <b>busybox</b> and run a simple command in it. (busybox is a small container used in embedded systems)<br>
+
+Let's run something heavier this time. Let's run an interactive pseudo-terminal of a Debian release:
+```
+sudo docker run -it debian
+```
+<img src="./imgs/debian_docker.png">
+
+#### Detached mode
+Using the "-d" flag, enables detach mode, allowing the container to run in the background.<br>
+You can see the containers informations of the containers running in the background using the command ps: (you can also see the containers that were stopped by adding the -a flag)
+```
+$ sudo docker ps 
+```
+<img src="./imgs/ps_docker.png">
+While running in the background, each container has a logs file that registers output from the stdout. The logs can be accessed using the command : 
+
+```
+$ sudo docker logs CONTAINER_ID 
+```
+
+Where CONTAINER_ID is the id of the ID of the contianers obviously (you can use the first distinct 2 or plus characters of the id). <br>
+Now that we have a bunch of containers in the background, it's time to put some of them down. There are two ways we can terminate our detached containers with: 
+
+#### Stopping running containers
+```
+$ sudo docker kill CONTAINER_ID
+$ sudo docker stop CONTAINER_ID
+```
+
+The different between the two is the signal sent. kill send the the SIGKILL signal while stop send the sigterm signal. Learn more about those 2 signals <a href="https://linuxhandbook.com/sigterm-vs-sigkill/"> here</a>.<br>
+You can run stopped containers again using Docker start command. It will then restart using the same options that you run it first with.
+<img src="./imgs/sigkill_meme.png">
+
+#### From detached to interactive and vice versa
+Another interesting fact is the transitioning between interactive (when the contianer is run using the -it flags) and detached mode (when ran using the -d flag):<br>
+You can go from interactive to detach by sending ^p^q signals or killing the Docker client. (note that this will not work in Windows powershell)<br>
+You can also detach it by defining detach-keys at docker run. e.g:
+```
+$ sudo docker run -it --detach-keys ctrl-h CONTAINER_IMAGE
+```
+
+Or you can go from detach to interactive mode by using the Docker exec command:
+```
+$ sudo docker exec -it CONTAINER_ID PATH_TO_SHELL_BINARY
+```
+
+<img src="./imgs/ToInteractive_Docker.png">
+
+### Docker images
