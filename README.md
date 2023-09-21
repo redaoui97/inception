@@ -201,3 +201,10 @@ $ sudo docker exec -it CONTAINER_ID PATH_TO_SHELL_BINARY
 <img src="./imgs/ToInteractive_Docker.png">
 
 ### Docker images
+
+#### Image?
+An image is a lightweight package (not to confuse with Linux packages) that contians everthing needed to run a set of programs. It's a combo of files and metadata(image author, env variables, list of commands to run and build time...), forming laers stacked on top of each other.<br>
+An image consits of the following components:
+page 141
+
+</ul>
