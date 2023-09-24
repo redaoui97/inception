@@ -1,10 +1,6 @@
 # inception
-42's common core project; system administration; containerization
 
-Learning materials: 
 -virtualization vs containarization: https://www.trianz.com/insights/containerization-vs-virtualization#:~:text=Containerization%20is%20a%20form%20of,isolate%20processes%20from%20one%20another.
-
--Docker : https://docker-curriculum.com 
 
 ### Virtualization
 Is a technology that lets you create usefule IT services using resources that are linked to hardware. It allows you to use the physical machine by distriburing it's capabilities.
@@ -72,8 +68,8 @@ Software called Hypervisors separate the physical resources from the virtual env
     KVM converts Linux into a type1 hypervisor. Since it's already built inside the Linux Kernel, it has by default all the Kernel modules and components it needs.
     There are other tools similar to KVM but irrelevant compared to KVM (Like MS Hyper-V, but who cares about Windows!?)  
 </p>
-<img src="./imgs/KVM.png">
 
+<img src="./imgs/KVM.png">
 
 ### Containerization
 Containerization is the packaging of software code with just the OS Libraries and dependencies required to run the code to create a singel lightweight executable.<br>
@@ -116,7 +112,9 @@ From what we've read above, we understand that containers were just a small mixt
 
 ### Why containers
 There are many reasons why you should use containers, especially in some cases where it is vital for a task to be done virtually without the need of a Virtual Machine.
+
 <img src="./imgs/docker_meme.png">
+
 <ul>
     <li><b>Portable:</b> The diversity in Operating Systems nowadays makes it nearly impossible for developers to develop and maintain tools and applications on every system, thus making containerization a good choice to run stable applications in different environments.</li>
     <li><b>Lightweight</b> Containers are lightzeight and share the host OS kernel, which makes it way fast and light than traditional Virtual Machines. </li>
@@ -125,7 +123,19 @@ There are many reasons why you should use containers, especially in some cases w
 </ul>
 
 ### Docker
-I won't go through the history of Containerization and how the first versions of Docker were released. So let's dive directly into Docker:
+I won't go through the history of Containerization and how the first versions of Docker were released. So let's dive directly into Docker:<br>
+Docker was built on top of LXC(operating-system-level virtualization method for running multiple isolated Linux systems on a control host using a single Linux kernel).<br>
+
+<img src="./imgs/docker_compons.png">
+
+<br>It has 3 main components:
+<ul>
+    <li>Docker Engine (dockerd): comprises the following components in this image: 
+    <img src="./imgs/docker_engine.png">
+    </li>
+    <li>docker-containerd (containerd): another system daemon service that is responsible for downloading the docker images and running them as containers.</li>
+    <li>docker-runc (runc): is a container runtime responsible for creating the container components(namespaces, cgroups...) </li>
+</ul>
 
 #### Working environment
 As we know, containerization, Docker containers specifically, are dependent of the host machine's Kernel. Meaning that you cannot run a Windows container directly in a Linux environment, or Linux container directly in Windows environment... You get the idea.<br>
@@ -137,7 +147,9 @@ If you're on Windows, MacOs or another Linux distribution, check <a href="https:
 <b>Tip:</b> if you decide to do the same, make sure to contantly take snapshots to avoid the need to fresh install if you messed things up while testing.<br>
 Let's get started!<br>
 I have my Linux guest machine ready, and to avoid slow response when directly using the terminal inside the virtual machine, I'll be access it remotely through ssh.
+
 <img src="./imgs/sshLogin.png">
+
 In many Linux distributions, there is already a package named docker, but the Docker we need is under another name (docker.io).<br>
 To install and run the Docker Daemon:
 ```
@@ -150,13 +162,16 @@ kali@kali:~$
 ```
 
 #### Hello world!
+
 <img src="./imgs/dockerVersion.png">
+
 Let's start by testing a lightweight container called <b>busybox</b> and run a simple command in it. (busybox is a small container used in embedded systems)<br>
 
 Let's run something heavier this time. Let's run an interactive pseudo-terminal of a Debian release:
 ```
 sudo docker run -it debian
 ```
+
 <img src="./imgs/debian_docker.png">
 
 #### Detached mode
@@ -166,6 +181,7 @@ You can see the containers informations of the containers running in the backgro
 $ sudo docker ps 
 ```
 <img src="./imgs/ps_docker.png">
+
 While running in the background, each container has a logs file that registers output from the stdout. The logs can be accessed using the command : 
 
 ```
@@ -183,6 +199,7 @@ $ sudo docker stop CONTAINER_ID
 
 The different between the two is the signal sent. kill send the the SIGKILL signal while stop send the sigterm signal. Learn more about those 2 signals <a href="https://linuxhandbook.com/sigterm-vs-sigkill/"> here</a>.<br>
 You can run stopped containers again using Docker start command. It will then restart using the same options that you run it first with.
+
 <img src="./imgs/sigkill_meme.png">
 
 #### From detached to interactive and vice versa
@@ -212,6 +229,8 @@ An easy way to visualize images, layers and containers in OOP:
     <li>Layers : inheritance</li>
 </ul>
 
+<img src="./imgs/docker_build.png">
+
 #### Manage images
 You can find 3 namespaces for Docker images:
 <ul>
@@ -231,7 +250,8 @@ Or search for images from the Docker registry:
 $ sudo docker search DOCKER_IMAGE_NAME
 ```
 
-You can manage Docker images (pulling and pushing images) using the Docker client either by storing them in your Docker host or in a Docker registry.
+You can manage Docker images (pulling and pushing images) using the Docker client either by storing them in your Docker host or in a Docker registry.<br>
+Docker has a built-in caching system that takes a snapshot after each build step, and before executing a step checks if has the built step cached for optimization purposes. (you can force a no-cache during the build using --no-cache)
 
 #### Creating new images
 You can create new Docker images by either:<br>
@@ -242,3 +262,68 @@ $ sudo docker commit --author AUTHOR_NAME CONTAINER_ID IMAGE_NAME
 ```
 
 <b>docker build</b>: the best method to create docker images. It makes more maintainable and light-weight images...
+
+#### Dockerfile
+A Dockerfile is a blueprint, for a Docker image that is based on another image. (You can make an image from scratch, literally! Learn more <a href="https://docs.docker.com/build/building/base-images/#create-a-simple-parent-image-using-scratch">here</a>.)<br>
+
+We can build a container image automatically using a Dockerfile. It's a series of instructions telling Docker how an image is constructed. It's built using the <b>docker build</b> command.
+
+#### Anatomy of a Dockerfile
+
+A Dockerfile, is made of a set of instructions, each representing a layer of the image that we want to produce.
+
+<img src="./imgs/container_layers.png">
+
+Here is an example of a Dockerfile: 
+
+<img src="./imgs/dockerfile_example.png">
+
+#### Creating an image from a Dockerfile
+
+To know more about Dockerfile, images and layers. Let's create our own simple Dockerfile: <br>
+This is will generate a simple Docker image based on debian and that just infinitely pings google.com:
+
+<img src="./imgs/docker_ping.png">
+
+Let's build it now (running a docker build is similar to make, you need to be in the directory where your target Dockerfile is. Or you can specify the Dockerfile using -f (--file) flag)
+
+```
+$ sudo docker build -t test_image:v0.1 .
+```
+
+<img src="./imgs/build_image.png">
+
+And run it : 
+
+<img src="./imgs/container_ps.png">
+
+We can see the layers using : 
+
+<img src="./imgs/layers_test.png">
+
+
+Now let's see something interesting. Let's make similar Dockerfile but instead of adding adding the command "ping google.com" inside of the Dockerfile, we execute it when we run the image: 
+
+```
+$ sudo docker run --name second_test_container -d second_test_image:v0.1 ping google.com
+```
+
+<img src="./imgs/sh_diff.png">
+
+We can see that the CMD instruction that runs "ping google.com" inside our Dockerfile runs our command using "/bin/sh -c".<br>
+As we know in Unix system, a process can trigger the execution of another independent process using the exec family syscalls. The Docker builder is lazy (but more secure as BourneShell (sh) has been maintained for far long than Docker, and is less susceptible of being vulnerable to input validation and other forms of attacks), he doesn't parse the commands taken but just forwards them to the shell to execute them. And that's why the shell syntax is used.<br>
+Another way to execute those commands is by using the JSON list also known as the exec syntax. The idea is to seperate the arguments manually :
+
+* RUN ["/usr/bin/ping", "google.com"]
+
+> tl.dr : seperate arguements for the builder to execute your commands, otherwise he'll use the shell to execute them.
+
+#### Docker PID 1
+
+The very first process ran inside of a Docker container is assigned the process ID: PID 1. Thus has a very special role in the system.  
+Th
+
+
+
+#### Build-time
+
