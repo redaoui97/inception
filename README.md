@@ -212,8 +212,33 @@ An easy way to visualize images, layers and containers in OOP:
     <li>Layers : inheritance</li>
 </ul>
 
+#### Manage images
+You can find 3 namespaces for Docker images:
+<ul>
+    <li>Docker official images: curated open-source images.</li>
+    <li>User/Orgs images: images from publishers verified by Docker Inc.</li>
+    <li>self-hosted images: images that are not hosted on Docker Hub, but on third party registries.</li>
+</ul>
+To show the Docker images stored in your host (has images pulled and created):
+
+```
+$ sudo docker images
+```
+
+Or search for images from the Docker registry:
+
+```
+$ sudo docker search DOCKER_IMAGE_NAME
+```
+
+You can manage Docker images (pulling and pushing images) using the Docker client either by storing them in your Docker host or in a Docker registry.
+
 #### Creating new images
 You can create new Docker images by either:<br>
-Using <b>docker commit</b>: save all the changes made to a container into a new layer and creates a new image.
+<b>docker commit</b>: save all the changes made to a container into a new layer and creates a new image. (not very popular method) More informations about docker commit <a href="https://docs.docker.com/engine/reference/commandline/commit/">here</a>.
 
-</ul>
+```
+$ sudo docker commit --author AUTHOR_NAME CONTAINER_ID IMAGE_NAME
+```
+
+<b>docker build</b>: the best method to create docker images. It makes more maintainable and light-weight images...
