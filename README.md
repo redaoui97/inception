@@ -321,9 +321,29 @@ Another way to execute those commands is by using the JSON list also known as th
 #### Docker PID 1
 
 The very first process ran inside of a Docker container is assigned the process ID: PID 1. Thus has a very special role in the system.  
-Th
+The PID1 process is responsible for the signal propogation to the other processes. When you send a SIGTERM or a SIGINT, the signals should be handeled by that process otherwise the PID1 will just get killed after 10 seconds.  
+A good way to properly handle signals and control the container during run-time is to use a supervisor.  
+A supervisor, is a tool through which we can run multiple processes while building our docker image. There are many supervisors. They're usually made for specific Os or distributions... Supervisord, systemd, runit, s6...  
 
+#### Configure a simple container supervised by supervisord
 
+I made the following Dockerfile. it installs the packages for supervisor and ping command, and sets up the configuration environment for supervisord, then executes supervisord that thus has PID1.
+
+<img src="./imgs/super_docker.png">
+
+Then made the configuration file for supervisord. nodaemon=true tells him to run in foreground instead of running as a daemon. And the second part is the program behaviour that we want: in a loop, every 60, ping google.com and concatenate the output given in a file called pings.txt located in the root directory. 
+
+<img src="./imgs/super_config.png">
+
+<img src="./imgs/super_ps.png">
+
+Now when we run this in interactive mode we can see the following result 
+
+<img src="./imgs/super_it.png">
+
+And when I send a SIGINT signal: (notice the SIGINT sent using ^C)
+
+<img src="./imgs/int_super.png">
 
 #### Build-time
 
