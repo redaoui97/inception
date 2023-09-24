@@ -203,8 +203,17 @@ $ sudo docker exec -it CONTAINER_ID PATH_TO_SHELL_BINARY
 ### Docker images
 
 #### Image?
-An image is a lightweight package (not to confuse with Linux packages) that contians everthing needed to run a set of programs. It's a combo of files and metadata(image author, env variables, list of commands to run and build time...), forming laers stacked on top of each other.<br>
-An image consits of the following components:
-page 141
+An image is a lightweight package (not to confuse with Linux packages) that contians everthing needed to run a set of programs. It's a combo of files and metadata(image author, env variables, list of commands to run and build time...), forming layers stacked on top of each other.<br>
+Images are made of leyers, where each layer can add, change and remove files.<br>
+An easy way to visualize images, layers and containers in OOP:
+<ul>
+    <li>Images : classes</li>
+    <li>Containers: objects</li>
+    <li>Layers : inheritance</li>
+</ul>
+
+#### Creating new images
+You can create new Docker images by either:<br>
+Using <b>docker commit</b>: save all the changes made to a container into a new layer and creates a new image.
 
 </ul>
