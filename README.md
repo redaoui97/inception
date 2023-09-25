@@ -345,9 +345,19 @@ And when I send a SIGINT signal: (notice the SIGINT sent using ^C)
 
 <img src="./imgs/int_super.png">
 
-https://container.training/intro-selfpaced.yml.html#203
-
 #### Build-time
 
+We've been building a lot of images, but what is building?  
+Building refers to the process of creating a Docker image from a set of instructions and resources defined in the Dockerfile.  
+There are 2 tools that build our images: 
+
+> Classic builder<br>
+> BuildKit
+
+The difference between those 2 tools is that BuildKit has improved performance, parallelism and is just superior in many other aspects. Luckily, BuildKit is the default builder as of version23.0. You can learn more <a href="https://docs.docker.com/build/buildkit/"> here</a>.
+
+#### 
 
 
+
+https://container.training/intro-selfpaced.yml.html#203
