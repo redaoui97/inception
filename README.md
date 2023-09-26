@@ -392,13 +392,7 @@ The more layers a Docker image has, the bigger our image gets. Therefore, many t
     <li>Collapsing layers:<br>Collapse layers into less layers. e.g: "RUN apt-get update && apt-get install xxx && ... && apt-get remove xxx && ..." this is better than using RUN for each instruction. And they're all removed in the same layer. Tough it's slower to build, that's where you want to see if you want to trade time and readablity for space.</li>
     <li>adding binaries that are built outside of the Dockerfile:<br>Copy binaries from your current context and compile them inside the container. Could come handy sometime but usually brings back the compatibility issues.</li>
     <li>Squashing the final image:<br>Transform the final image into a single-layered image by either using "build --squash" or export the final image (after building)</li>
-    <li>multi-stage builds:</li>
+    <li>multi-stage builds:<br>You can use FROM statements to use a different base, each begins a new stage of the build. Learn more <a href="https://docs.docker.com/build/building/multi-stage/">here</a>.</li>
 </ul>
 
-
-
-
-
-
-
-https://container.training/intro-selfpaced.yml.html#203
+https://container.training/intro-selfpaced.yml.html#330
