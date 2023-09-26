@@ -356,7 +356,48 @@ There are 2 tools that build our images:
 
 The difference between those 2 tools is that BuildKit has improved performance, parallelism and is just superior in many other aspects. Luckily, BuildKit is the default builder as of version23.0. You can learn more <a href="https://docs.docker.com/build/buildkit/"> here</a>.
 
-#### 
+#### Dockerfile's CMD & ENTRYPOINT
+
+We know that when a container is built and run it must have a process that takes PID1 and is the core of the container's lifecycle. That's where <b>CMD</b> and <b>ENTRYPOINT</b> come into play.  
+Both CMD and ENTRYPOINT are responsible for the container's behaviour, only one CMD and ENTRYPOINT is executed during run-time (the last one overrides the previous one; at the end only 1 CMD and ENTRYPOINT is executed).  
+But what if I use both of them? Well then the commands gets concatenated from both CMD and ENTRYPOINT. ENTRYPOINT is added to the result first before CMD. E.g :
+
+<img src="./imgs/CMD1.png">
+
+Gives the following result when ran: 
+
+<img src="./imgs/CMD1_res.png">
+
+Now the correct way:
+
+<img src="./imgs/CMD2.png">
+
+That eventually gives: 
+
+<img src="./imgs/CMD2_res.png">
+
+See how both got concatenated. (p.s: it doesn't matter where ENTRYPOINT is in the file, it will always be executed before CMD) (p.s2: the command you pass when you run the image overrides the CMD) (p.s3: you can also override entrypoint by using --entrypoint when you run the image)  
+But what is the differece between the 2? Basically ENTRYPOINT is great for "containerized binaries", while CMD is great for images with multiple binaries.
+
+#### Docker COPY
+
+The COPY keyword allows us to copy files from the build context (the directory in the host that contains the Dockerfile) into the container that we are building.  
+It's trivial for copying configuration files...  
+You can copy directories (technically files in UNIX systems) and you can use .dockerignore to ignore files from the copy target. 
+
+#### Image size optimization
+
+The more layers a Docker image has, the bigger our image gets. Therefore, many techniques are available to obtain a smaller image:
+<ul>
+    <li>Collapsing layers:<br>Collapse layers into less layers. e.g: "RUN apt-get update && apt-get install xxx && ... && apt-get remove xxx && ..." this is better than using RUN for each instruction. And they're all removed in the same layer. Tough it's slower to build, that's where you want to see if you want to trade time and readablity for space.</li>
+    <li>adding binaries that are built outside of the Dockerfile:<br>Copy binaries from your current context and compile them inside the container. Could come handy sometime but usually brings back the compatibility issues.</li>
+    <li>Squashing the final image:<br>Transform the final image into a single-layered image by either using "build --squash" or export the final image (after building)</li>
+    <li>multi-stage builds:</li>
+</ul>
+
+
+
+
 
 
 
