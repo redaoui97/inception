@@ -395,4 +395,23 @@ The more layers a Docker image has, the bigger our image gets. Therefore, many t
     <li>multi-stage builds:<br>You can use FROM statements to use a different base, each begins a new stage of the build. Learn more <a href="https://docs.docker.com/build/building/multi-stage/">here</a>.</li>
 </ul>
 
+#### Docker networking
+
+Now that we know how to run Docker containers and stuff, at some point we'd want to use those containers to host services that communicate with the outside world. And to do so, we'll need to publish ports.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://subscription.packtpub.com/book/cloud-and-networking/9781789349863/2
+
+
 https://container.training/intro-selfpaced.yml.html#330

@@ -2,13 +2,14 @@ Cursus: deadline 01/11 : 52 days
     -inception
     -ft_irc
     -Git 
--Inception: 14 days : 24/09
+    
+-Inception: 14 days :
     -Documentation about concepts (virtualization, containerization)
     -How to use Docker
     -Experimenting
     -Working on the project
 
--ft_irc: 38 days
+-ft_irc:
     -Find partner to work with
     -Gather knowledge about project
     -Project structure
