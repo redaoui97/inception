@@ -3,7 +3,7 @@
 -virtualization vs containarization: https://www.trianz.com/insights/containerization-vs-virtualization#:~:text=Containerization%20is%20a%20form%20of,isolate%20processes%20from%20one%20another.
 
 ### Virtualization
-Is a technology that lets you create usefule IT services using resources that are linked to hardware. It allows you to use the physical machine by distriburing it's capabilities.
+Is a technology that lets you create useful IT services using resources that are linked to hardware. It allows you to use the physical machine by distriburing it's capabilities.
 
 #### Types of virtualization
 <ul>
@@ -12,13 +12,13 @@ Is a technology that lets you create usefule IT services using resources that ar
         Consolidate data spread into a single source. The logical data management allows establishing a single data-access and real-time access to data stored across multiple heterogenous data sources.
         Examples of data virtualization tools:
         <a href="https://www.denodo.com/en/solutions/overview">Denodo platform</a>
-        <a href="https://www.sap.com/products/technology-platform/hana.html">SAP Hana</a>
-        <img src ="./imgs/data_virt.png">
+        <a href="https://www.sap.com/products/technology-platform/hana.html">SAP Hana</a>  
     </p>
+    <img src ="./imgs/data_virt.png">
     <li>Desktop virtualization</li>
     <p>
         Different from OS virtualization, Desktop virtualization allows a central administrator to deploy simulated desktop environments to hundreds of physical machines at once. Unlike traditional desktopn evironment that are physically installed and configured, desktop virtualization allows admins to perform mass configurations on all machines.
-        Programs like Virtual box, Qemu or VMware... could fall under the Desktop virtualization category.
+        Programs like Virtual box, Qemu or VMware... could fall under the Desktop virtualization category.<br>   
         <img src="./imgs/desktop_virt.png">
     </p>
     <li>Server virtualization</li>
@@ -397,7 +397,52 @@ The more layers a Docker image has, the bigger our image gets. Therefore, many t
 
 #### Docker networking
 
-Now that we know how to run Docker containers and stuff, at some point we'd want to use those containers to host services that communicate with the outside world. And to do so, we'll need to publish ports.  
+When you run a Docker container, it is isolated from the host system by default, since it has its own network namespace.  
+To make a container accessible from the outside, it needs to expose/publish ports.  
+What is exposing and publishing in this contexte?  
+
+Exposing is specifying which ports your container listens on. Though doesn't mean he can communicate with the outside.  
+
+```
+EXPOSE 80
+```
+
+Publishing is mapping the specified container ports with the host's ports.
+
+```
+docker run -p 8080:80 NAME_Of_IMAGE
+```
+
+There are several ways to publish ports in Docker: 
+<ul>
+    <li>-P (--publish-all): it publishes all the exposed ports.<br>
+    Note that this only publishes the exported ports and maps them to a random port on the host. If no ports are exposed, then obviously nothing is going to be published.<br>
+    You'll notice that in some cases the images you're trying to run have already published ports. E.g: Nginx.<br>
+    To see what ports are exposed on a specific image use the following query:  
+    </li>
+
+```
+docker image inspect --format '{{.Config.ExposedPorts}}' image_name
+```
+<li>-p (--publish): This will publish the ports you specify and map them to the specified host ports. Unlike -P, ports in this case can be published without having to be exposed, though it affects readability.</li>
+<li>Using a docker-compose.yml file: a cleaner way to publish ports, is to write a docker compose file. It's useful especially when you have to setup 2+ interconnected containers. As it is an organized way. Example for an Nginx docker compose file:  
+    </li>
+
+```
+#Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app-network
+```
+</ul>
+
 
 
 
