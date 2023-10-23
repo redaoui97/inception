@@ -444,9 +444,19 @@ docker image inspect --format '{{.Config.ExposedPorts}}' image_name
 </ul>
 
 
+#### Container network drivers
 
+Network drivers are components that define how containers communicate with eachother. There are several we count: bridge (the default), null, host, container.  
+A driver can be selected using --net 
 
+#### Container network model
 
+The network model defines how the containers interact with the host from a networking perspective.  
+
+#### Service discovery with containers
+#### Ambassadors
+#### A little bit of YAML
+#### Docker Compose
 
 
 
