@@ -395,7 +395,7 @@ The more layers a Docker image has, the bigger our image gets. Therefore, many t
     <li>multi-stage builds:<br>You can use FROM statements to use a different base, each begins a new stage of the build. Learn more <a href="https://docs.docker.com/build/building/multi-stage/">here</a>.</li>
 </ul>
 
-#### Docker networking
+### Docker networking
 
 When you run a Docker container, it is isolated from the host system by default, since it has its own network namespace.  
 To make a container accessible from the outside, it needs to expose/publish ports.  
@@ -443,6 +443,9 @@ docker image inspect --format '{{.Config.ExposedPorts}}' image_name
 ```
 </ul>
 
+(the host can access containers using their internal ip address even if don't have any ports published)
+
+<img src="./imgs/inter_net.png">
 
 #### Container network drivers
 
@@ -451,11 +454,39 @@ A driver can be selected using --net
 
 #### Container network model
 
-The network model defines how the containers interact with the host from a networking perspective.  
+The network model defines how the containers interact with the host and eachother from a networking perspective.  
+By default containers are isolated so by publishing ports and creating networks, we can interconnect stacks and apps.  
+Networks are also isolated, but containers belonging to different networks at a time can connect networks...  
 
-#### Service discovery with containers
+<img src="./imgs/sev_networks.png">
+
+Let's run a simulation:  
+
+Let's create a network named test that englobes 2 containers 
+
+```
+$ docker network create test
+$ docker run -d --name test_container1 --net test debian sleep infinity
+$ docker run -it --name test_container2 --net test debian bash
+```
+
+You can test if the container1 is accessible from outside the network, either by pinging it's hostname from the host or another container.  
+Containers on the same network have builtin DNS resolution for eachother. Since Docker sets up DNS service within the network.  
+You can connect and disconnect running containers from the network using
+
+```
+$ docker network connect NETWORK_NAME CONTAINER_ID
+$ docker network disconnect NETWORK_NAME CONTAINER_ID
+```
+
 #### Ambassadors
+Docker ambassadors refer to the containers and services that act as proxies for routing traffic (e.g: load balancing, service discovery, migration, fail over, authentication...)  
+
+### Docker compose & YAML
+
 #### A little bit of YAML
+YAML is a human readable data serialization format. It's somehow similar to XML and JSON but it's more oriented towards data exchange between different programming languages.  
+
 #### Docker Compose
 
 
