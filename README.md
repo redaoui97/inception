@@ -485,9 +485,26 @@ Docker ambassadors refer to the containers and services that act as proxies for 
 ### Docker compose & YAML
 
 #### A little bit of YAML
+
 YAML is a human readable data serialization format. It's somehow similar to XML and JSON but it's more oriented towards data exchange between different programming languages.  
+YAML is commonly used for Docker configuration (Docker compose, kubernetes.)  
+Example of YAML syntax: 
+
+```
+#Comment: This is a supermarket list using YAML
+#Note that - character represents the list
+---
+food: 
+  - vegetables: tomatoes #first list item
+  - fruits: #second list item
+      citrics: oranges 
+      tropical: bananas
+      nuts: peanuts
+      sweets: raisins
+```
 
 #### Docker Compose
+Docker compose is a tool that lets you run multiple containers at once. You can interconnect those containers and configure them however you like in a single YAML file.  
 
 
 
