@@ -7,13 +7,15 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./requirements/nginx/conf/nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - wordpress-volume:/Users/reda/school_projects/inception/project/srcs/volumes/wordpress-volume
-    environment:
-      - NGINX_TLS_PROTOCOLS=TLSv1.2 TLSv1.3
-      - DOMAIN_NAME="rnabil.1337.ma"
+      - wordpress-volume:/var/www/html
+    #depends_on:
+      #- wordpress
     networks:
-      - infra_network_exposed
+      - infra_network
+    restart: always
+    environment:
+      - NGINX_TLS_PROTOCOLS=${TLS_VERSIONS}
+      - DOMAIN_NAME=${DOMAIN_NAME}
 
   mariadb:
     container_name: mariadb
@@ -21,23 +23,27 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "~/Desktop/inception/mariadb:/var/lib/mysql"
+      - mariadb-volume:/var/lib/mysql
     networks:
-      - infra_network_obscure
+      - infra_network
     restart: always
     environment:
       WP_DATABASE_NAME: ${WP_DATABASE_NAME}
-      WP_DATABASE_USR:  ${WP_DATABASE_USR}
-      WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
-      MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
+      WP_DATABASE_USR: ${WP_DATABASE_USR}
+      WP_DATABASE_PWD: ${WP_DATABASE_PWD}
+      MYSQL_ROOT_PWD: ${MYSQL_ROOT_PWD}
     
   
 volumes:
   wordpress-volume:
+    driver: local
+    driver_opts:
+      device: ${WORDPRESS_VOLUME}
   mariadb-volume:
+    driver: local
+    driver_opts:
+      device: ${MARIADB_VOLUME}
 
 networks:
-  infra_network_exposed:
-    driver: bridge
-  infra_network_obscure:
+  infra_network:
     driver: bridge
