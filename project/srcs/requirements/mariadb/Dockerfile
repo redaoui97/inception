@@ -2,6 +2,12 @@ FROM debian:buster
 
 RUN apt-get update && apt-get install -y mariadb-server mariadb-client
 
-COPY conf/configure.sh /tmp/configure.sh
+COPY ./conf entrypoint.d
 
-ENTRYPOINT ["sh", "/tmp/configure.sh"]
+RUN chmod +x /entrypoint.d/configure.sh
+
+EXPOSE 3306
+
+ENTRYPOINT [ "/entrypoint.d/configure.sh" ]
+
+CMD ["mysqld_safe"]

@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  #=====================NGINX=============================
   nginx:
     container_name: nginx
     build: ./requirements/nginx
@@ -16,7 +17,7 @@ services:
     environment:
       - NGINX_TLS_PROTOCOLS=${TLS_VERSIONS}
       - DOMAIN_NAME=${DOMAIN_NAME}
-
+  #=====================MARIADB=============================
   mariadb:
     container_name: mariadb
     build: requirements/mariadb/
@@ -28,22 +29,27 @@ services:
       - infra_network
     restart: always
     environment:
-      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
-      WP_DATABASE_USR: ${WP_DATABASE_USR}
-      WP_DATABASE_PWD: ${WP_DATABASE_PWD}
-      MYSQL_ROOT_PWD: ${MYSQL_ROOT_PWD}
-    
-  
+      SQL_ROOT_PWD: ${SQL_ROOT_PWD}
+      SQL_DB_NAME: ${SQL_DB_NAME}
+      SQL_ADMIN: ${SQL_ADMIN}
+      SQL_PASSWORD: ${SQL_PASSWORD}
+  #======================WORDPRESS============================
+
 volumes:
   wordpress-volume:
     driver: local
     driver_opts:
+      type: none
+      o: bind
       device: ${WORDPRESS_VOLUME}
   mariadb-volume:
     driver: local
     driver_opts:
+      type: none
+      o: bind
       device: ${MARIADB_VOLUME}
-
+    
 networks:
   infra_network:
     driver: bridge
+  
