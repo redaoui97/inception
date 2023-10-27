@@ -504,15 +504,9 @@ food:
 #### Docker Compose
 Docker compose is a tool that lets you run multiple containers at once. You can interconnect those containers and configure them however you like in a single YAML file.  
 
+## Conclusion
+Great thanks to the guys who made this <a href="https://container.training/intro-selfpaced.yml.html">Docker training.</a><br>
+Another great <a href="https://subscription.packtpub.com/book/cloud-and-networking/9781789349863/2
+">resource.</a><br>
+For typos and mistakes, do not hesitate to open a pull request or contact me.
 
-
-
-
-
-
-
-
-https://subscription.packtpub.com/book/cloud-and-networking/9781789349863/2
-
-
-https://container.training/intro-selfpaced.yml.html#358
