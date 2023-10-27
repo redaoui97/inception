@@ -1,7 +1,5 @@
 # inception
 
--virtualization vs containarization: https://www.trianz.com/insights/containerization-vs-virtualization#:~:text=Containerization%20is%20a%20form%20of,isolate%20processes%20from%20one%20another.
-
 ### Virtualization
 Is a technology that lets you create useful IT services using resources that are linked to hardware. It allows you to use the physical machine by distriburing it's capabilities.
 
