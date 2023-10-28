@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  #=====================NGINX=============================
+  #=====================NGINX=====================================
   nginx:
     container_name: nginx
     build: ./requirements/nginx
@@ -9,18 +9,24 @@ services:
       - "443:443"
     volumes:
       - wordpress-volume:/var/www/html
-    #depends_on:
-      #- wordpress
+    # depends_on:
+    #   - wordpress
     networks:
       - infra_network
     restart: always
     environment:
       - NGINX_TLS_PROTOCOLS=${TLS_VERSIONS}
       - DOMAIN_NAME=${DOMAIN_NAME}
-  #=====================MARIADB=============================
+  #=====================MARIADB===================================
   mariadb:
     container_name: mariadb
-    build: requirements/mariadb/
+    build: 
+      context: requirements/mariadb/
+      args:
+        SQL_ROOT_PWD: ${SQL_ROOT_PWD}
+        SQL_DB_NAME: ${SQL_DB_NAME}
+        SQL_ADMIN: ${SQL_ADMIN}
+        SQL_PASSWORD: ${SQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -28,13 +34,38 @@ services:
     networks:
       - infra_network
     restart: always
-    environment:
-      SQL_ROOT_PWD: ${SQL_ROOT_PWD}
-      SQL_DB_NAME: ${SQL_DB_NAME}
-      SQL_ADMIN: ${SQL_ADMIN}
-      SQL_PASSWORD: ${SQL_PASSWORD}
-  #======================WORDPRESS============================
-
+  #======================WORDPRESS================================
+  # wordpress:
+  #   build: ./requirements/wordpress
+  #   container_name: wordpress
+  #   environment:
+  #     - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+  #     - WORDPRESS_ROOT_PASSWORD=${WORDPRESS_ROOT_PASSWORD}
+  #     - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+  #     - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+  #     - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+  #     - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}
+  #     # Wordpress website configuration
+  #     - WORDPRESS_SITE_TITLE=${WORDPRESS_SITE_TITLE}
+  #     #   ADMIN user
+  #     - WORDPRESS_SITE_ADMIN_USER=${WORDPRESS_SITE_ADMIN_USER}
+  #     - WORDPRESS_SITE_ADMIN_PASSWORD=${WORDPRESS_SITE_ADMIN_PASSWORD}
+  #     - WORDPRESS_SITE_ADMIN_EMAIL=${WORDPRESS_SITE_ADMIN_EMAIL}
+  #     #   REGULAR user
+  #     - DOMAIN_NAME=${DOMAIN_NAME}
+  #     - WORDPRESS_SITE_USER=${WORDPRESS_SITE_USER}
+  #     - WORDPRESS_SITE_USER_PASSWORD=${WORDPRESS_SITE_USER_PASSWORD}
+  #     - WORDPRESS_SITE_USER_EMAIL=${WORDPRESS_SITE_USER_EMAIL}
+  #   ports:
+  #     - "9000:9000"
+  #   depends_on:
+  #     - mariadb
+  #   volumes:
+  #     - wordpress-volume:/var/www/html/wordpress
+  #   networks:
+  #     - infra_network
+  #   restart: always
+###################################################################
 volumes:
   wordpress-volume:
     driver: local
@@ -48,7 +79,7 @@ volumes:
       type: none
       o: bind
       device: ${MARIADB_VOLUME}
-    
+###################################################################
 networks:
   infra_network:
     driver: bridge
