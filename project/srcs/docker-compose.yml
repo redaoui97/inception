@@ -23,6 +23,7 @@ services:
     build: ./requirements/wordpress
     container_name: wordpress
     environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
       - SQL_ROOT_PWD=${SQL_ROOT_PWD}
       - SQL_DB_NAME=${SQL_DB_NAME}
       - SQL_ADMIN=${SQL_ADMIN}
