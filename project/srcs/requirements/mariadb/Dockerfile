@@ -12,6 +12,6 @@ COPY ./conf entrypoint.d
 
 RUN chmod +x /entrypoint.d/configure.sh
 
-RUN  bash /entrypoint.d/configure.sh
-
-ENTRYPOINT ["mysqld"]
+#RUN  /entrypoint.d/configure.sh
+CMD ["/entrypoint.d/configure.sh"]
+#ENTRYPOINT ["mysqld", "-F"]
