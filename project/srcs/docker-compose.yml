@@ -4,6 +4,7 @@ services:
   #=====================MARIADB===================================
   mariadb:
     container_name: mariadb
+    image: mariadb:rnabil
     environment:
       - SQL_ROOT_PWD=${SQL_ROOT_PWD}
       - SQL_DB_NAME=${SQL_DB_NAME}
@@ -22,6 +23,7 @@ services:
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
+    image: wordpress:rnabil
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
       - SQL_ROOT_PWD=${SQL_ROOT_PWD}
@@ -52,6 +54,7 @@ services:
   nginx:
     container_name: nginx
     build: ./requirements/nginx
+    image: nginx:rnabil
     ports:
       - "443:443"
     volumes:
