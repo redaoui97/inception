@@ -2,14 +2,14 @@ all: build up
 re : clean all
 build :
 	mkdir -p -m 777 /home/rnabil/data/mariadb /home/rnabil/data/wordpress
-	source .env
-	docker compose -f srcs/docker-compose.yml build
+	docker-compose build 
 restart:
-	docker compose -f srcs/docker-compose.yml restart
+	docker-compose restart
 up:
-	docker compose -f srcs/docker-compose.yml up 
+	docker-compose up 
 down:
-	docker compose -f srcs/docker-compose.yml down
+	docker-compose down
+run: build up
 rm_volumes_content:
 	rm -rf /home/rnabil/data/mariadb/*
 	rm -rf /home/rnabil/data/wordpress/*
