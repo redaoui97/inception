@@ -20,8 +20,6 @@ sed -i "s/username_here/$SQL_ADMIN/" wp-config.php
 sed -i "s/password_here/$SQL_PASSWORD/" wp-config.php
 sed -i "s/localhost/mariadb/" wp-config.php
 sed -i "s/\/run\/php\/php7.4-fpm.sock/9000/" /etc/php/7.4/fpm/pool.d/www.conf
-echo "-"$DOMAIN_NAME":"$WPB_TITLE":"$WPB_AUSER_USERNAME":"$WPB_AUSER_PASSWORD":"$WPB_AUSER_EMAIL
-sleep 10
 wp core install --url=$DOMAIN_NAME --title=$WPB_TITLE --admin_user=$WPB_AUSER_USERNAME --admin_password=$WPB_AUSER_PASSWORD --admin_email=$WPB_AUSER_EMAIL --allow-root
 echo "WordPress core installed successfully."
 #WP user add
